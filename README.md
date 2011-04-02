@@ -1,12 +1,23 @@
-This fork from leafo's lessphp is an attempt to bring PHP 5.3 conventions and
-autoloading to the lessphp library so that it can be used easilly in a framework
+# lessphp for PHP 5.3
+
+`lessphp` is a compiler for LESS written in PHP 5.3.
+It is a PHP 5.3 port from <http://leafo.net/lessphp> to bring PHP 5.3 conventions 
+and autoloading to the lessphp library so that it can be used easily in a framework
 like Symfony2.
 
-# lessphp v0.2.0
-#### <http://leafo.net/lessphp>
-
-`lessphp` is a compiler for LESS written in php.
 For a complete description of the language see <http://leafo.net/lessphp/docs/>
+
+### How to use in your Symfony2 project
+
+Download in `vendor/lessphp`:
+
+    git submodule add git://github.com/knplabs/lessphp.git vendor/lessphp
+
+Edit your `app/autoload.php`:
+
+    $loader->registerNamespaces(array(
+        'Lessphp'                        => __DIR__.'/../vendor/lessphp/src',
+    ));
 
 ### How to use in your php project
 
