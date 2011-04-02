@@ -1,4 +1,7 @@
 <?php
+
+require_once __DIR__."/bootstrap.php";
+
 error_reporting(E_ALL);
 
 /**
@@ -19,9 +22,10 @@ $output = array(
 
 
 $prefix = realpath(dirname(__FILE__));
-require $prefix.'/../lessc.inc.php';
 
-$compiler = new lessc();
+use Lessphp\Lessc;
+
+$compiler = new Lessc();
 $compiler->importDir = $input['dir'].'/test-imports';
 
 $fa = 'Fatal Error: ';

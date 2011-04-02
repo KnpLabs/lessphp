@@ -6,7 +6,9 @@
  * Copyright 2010, leaf corcoran <leafot@gmail.com>
  */
 
-require "lessc.inc.php";
+namespace Lessphp;
+
+use Lessphp\Lessc;
 
 //
 // check if the merge during mixin is overwriting values. should or should it not?
@@ -354,7 +356,7 @@ class nodecounter {
 /**
  * create a less file from a css file by combining blocks where appropriate
  */
-class lessify extends lessc {
+class Lessify extends Lessc {
 	public function dump() {
 		print_r($this->env);
 	}

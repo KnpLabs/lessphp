@@ -4,11 +4,10 @@
 // command line utility to compile less to stdout
 // leaf corcoran <leafo.net>
 $VERSION = "v0.2.1";
+require_once __DIR__.'/src/autoload.php';
 
 error_reporting(E_ALL);
 $path  = realpath(dirname(__FILE__)).'/';
-
-require $path."lessc.inc.php";
 
 $fa = "Fatal Error: ";
 function err($msg) {

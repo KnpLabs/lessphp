@@ -4,12 +4,13 @@
  * lessphp v0.2.1
  * http://leafo.net/lessphp
  *
- * LESS css compiler, adapted from http://lesscss.org/docs.html
+ * LESS css compiler, adapted from http://Lesscss.org/docs.html
  *
  * Copyright 2010, Leaf Corcoran <leafot@gmail.com>
  * Licensed under MIT or GPLv3, see LICENSE
  */
 
+namespace Lessphp;
 
 /**
  * The less compiler and parser.
@@ -27,12 +28,12 @@
  * the parse step. A reduction is done on the mixed in block as it is mixed in.
  *
  *  See the following:
- *    - entry point for parsing and compiling: lessc::parse()
- *    - parsing: lessc::parseChunk()
- *    - compiling: lessc::compileBlock()
+ *    - entry point for parsing and compiling: Lessc::parse()
+ *    - parsing: Lessc::parseChunk()
+ *    - compiling: Lessc::compileBlock()
  *
  */
-class lessc {
+class Lessc {
 	protected $buffer;
 	protected $count;
 	protected $line;
@@ -108,7 +109,7 @@ class lessc {
 	 * functions represent discrete grammatical rules for the language, and
 	 * they are able to capture the text that represents those rules.
 	 *
-	 * Consider the function lessc::keyword(). (all parse functions are
+	 * Consider the function Lessc::keyword(). (all parse functions are
 	 * structured the same)
 	 *
 	 * The function takes a single reference argument. When calling the the
@@ -117,7 +118,7 @@ class lessc {
 	 * argument, advance the position in the buffer, and return true. If it
 	 * fails then it won't advance the buffer and it will return false.
 	 *
-	 * All of these parse functions are powered by lessc::match(), which behaves
+	 * All of these parse functions are powered by Lessc::match(), which behaves
 	 * the same way, but takes a literal regular expression. Sometimes it is
 	 * more convenient to use match instead of creating a new function.
 	 *
@@ -126,7 +127,7 @@ class lessc {
 	 *
 	 * But, if some of the rules in the chain succeed before one fails, then
 	 * then buffer position will be left at an invalid state. In order to 
-	 * avoid this, lessc::seek() is used to remember and set buffer positions.
+	 * avoid this, Lessc::seek() is used to remember and set buffer positions.
 	 *
 	 * Before doing a chain, use $s = $this->seek() to remember the current
 	 * position into $s. Then if a chain fails, use $this->seek($s) to 
@@ -134,7 +135,7 @@ class lessc {
 	 *
 	 * When something is successfully parsed, depending on what it is, it is
 	 * placed in the document's tree by being put in the recursive structure
-	 * lessc::$env. $env is an anonymous object with a $store and a $parent. 
+	 * Lessc::$env. $env is an anonymous object with a $store and a $parent. 
 	 * $store is an associative array of all the objects held, and $parent is
 	 * the $env object one level above.
 	 *
@@ -1563,7 +1564,7 @@ class lessc {
 	// push a new environment
 	// $base is initial store
 	function push($base = null) {
-		$env = new stdclass;
+		$env = new \stdclass;
 		$env->parent = $this->env;
 		$env->store = is_null($base) ? array() : $base;
 
@@ -1573,7 +1574,7 @@ class lessc {
 	// pop environment off the stack
 	function pop() {
 		if (is_null($this->env->parent))
-			throw new exception('parse error: unexpected end of block');
+			throw new \Exception('parse error: unexpected end of block');
 
 		$old = $this->env;
 		$this->env = $this->env->parent;
@@ -1931,7 +1932,7 @@ class lessc {
 	// returns true when it compiles, false otherwise
 	public static function ccompile($in, $out) {
 		if (!is_file($out) || filemtime($in) > filemtime($out)) {
-			$less = new lessc($in);
+			$less = new Lessc($in);
 			file_put_contents($out, $less->parse());
 			return true;
 		}
@@ -1990,7 +1991,7 @@ class lessc {
 
 		if ($root !== null) {
 			// If we have a root value which means we should rebuild.
-			$less = new lessc($root);
+			$less = new Lessc($root);
 			$out = array();
 			$out['root'] = $root;
 			$out['compiled'] = $less->parse();

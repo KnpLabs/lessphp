@@ -1,6 +1,8 @@
 #!/usr/bin/php -q
 <?php
 
+require_once __DIR__.'/src/autoload.php';
+
 if (php_sapi_name() != "cli") { 
 	err($fa.$argv[0]." must be run in the command line.");
 	exit(1);
@@ -11,12 +13,11 @@ if (!$fname = array_shift($argv)) {
 	exit("Usage: ".$exe." input-file\n");
 }
 
-require "lessify.inc.php";
 
 try  {
-	$parser = new lessify($fname);
+	$parser = new Lessphp\Lessify($fname);
 	echo $parser->parse();
-} catch (exception $e) {
+} catch (Exception $e) {
 	exit("Fatal error: ".$e->getMessage()."\n");
 }
 
