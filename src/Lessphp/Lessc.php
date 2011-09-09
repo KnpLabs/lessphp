@@ -267,7 +267,7 @@ class Lessc {
 		if ($this->literal('}')) {
 			try {
 				$block = $this->pop();
-			} catch (exception $e) {
+			} catch (\Exception $e) {
 				$this->seek($s);
 				$this->throwParseError($e->getMessage());
 			}
@@ -1074,7 +1074,7 @@ class Lessc {
 	function lib_rgbahex($arg) {
 		$color = $this->reduce($arg);
 		if ($color[0] != 'color')
-			throw new exception("color expected for rgbahex");
+			throw new \Exception("color expected for rgbahex");
 
 		return sprintf("#%02x%02x%02x%02x",
 			isset($color[4]) ? $color[4]*255 : 0,
@@ -1499,11 +1499,11 @@ class Lessc {
 				$out[] = $lval % $rval;
 				break;
 			case '/':
-				if ($rval == 0) throw new exception("evaluate error: can't divide by zero");
+				if ($rval == 0) throw new \Exception("evaluate error: can't divide by zero");
 				$out[] = $lval / $rval;
 				break;
 			default:
-				throw new exception('evaluate error: color op number failed on op '.$op);
+				throw new \Exception('evaluate error: color op number failed on op '.$op);
 			}
 		}
 		return $this->fixColor($out);
@@ -1532,11 +1532,11 @@ class Lessc {
 			$value = $left[1] % $right[1];
 			break;	
 		case '/':
-			if ($right[1] == 0) throw new exception('parse error: divide by zero');
+			if ($right[1] == 0) throw new \Exception('parse error: divide by zero');
 			$value = $left[1] / $right[1];
 			break;
 		default:
-			throw new exception('parse error: unknown number operator: '.$op);	
+			throw new \Exception('parse error: unknown number operator: '.$op);	
 		}
 
 		return array($type, $value);
@@ -1832,7 +1832,7 @@ class Lessc {
 		if ($this->count != strlen($this->buffer)) $this->throwParseError();
 
 		if (!is_null($this->env->parent))
-			throw new exception('parse error: unclosed block');
+			throw new \Exception('parse error: unclosed block');
 
 		return $this->compileBlock($this->env->store, null, false);
 	}
@@ -1840,7 +1840,7 @@ class Lessc {
 	function throwParseError($msg = 'parse error') {
 		$line = $this->line + substr_count(substr($this->buffer, 0, $this->count), "\n");
 		if ($this->peek("(.*?)(\n|$)", $m))
-			throw new exception($msg.': failed at `'.$m[1].'` line: '.$line);
+			throw new \Exception($msg.': failed at `'.$m[1].'` line: '.$line);
 	}
 
 	/**
@@ -1854,7 +1854,7 @@ class Lessc {
 
 		if ($fname) {
 			if (!is_file($fname)) {
-				throw new Exception('load error: failed to find '.$fname);
+				throw new \Exception('load error: failed to find '.$fname);
 			}
 			$pi = pathinfo($fname);
 
